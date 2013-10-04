@@ -1,33 +1,59 @@
+%description: Deckblatt in Deutsch
+%% Basierend auf einer TeXnicCenter-Vorlage von Tino Weinkauf.
+%% sowie der akad-vorlage von Daniel Falkner
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{center}
-\thispagestyle{empty}
-\vspace{9cm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Deckblatt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% ACHTUNG: Sie benötigen ein Hauptdokument, um diese Datei
+%%          benutzen zu können. Verwenden Sie im Hauptdokument
+%%          den Befehl "\input{dateiname}", um diese
+%%          Datei einzubinden.
+%%
 
-\Huge{\Titel}
-\vspace{1cm}
-\onehalfspacing
+\begin{titlepage}
 
-\Large{\Betreff}
+%\thispagestyle{empty}
 
-\vspace{1cm}
-\Large{\Betreuer \\}
-\normalsize
-\vspace{2cm}
+\vspace{5cm}
 
-\Name \\ \Strasse \\ \PlzOrt
-\\
-\vspace{2cm}
+\Name \\ 
+\Strasse \\ 
+\PlzOrt\\ 
+\href{mailto:\Email}{\Email}
 
-\today
-
+AKAD Hochschule Stuttgart\\
 Immatrikulationsnummer: \Immatrikulationsnummer
 
-\href{mailto:\Email}{\Email}
-\vspace{3cm}
+\vfill
 
-\includegraphics[scale=0.35]{akad_logo.png}
+\begin{tabbing}
+Modul DBA02 --- \=Praktisches Arbeiten mit Datenbanken\\ 
+                \>Assignment  
+\end{tabbing}
+\LARGE
+\textsc{Datenbankgestützte \\PHP--Anwendung\\für eine Umfrage-Website}\\
 
-\end{center}
+\vfill
 
-\clearpage
+\normalsize
+
+Betreuer: Prof. Franz--Karl Schmatzer
+
+\today %%Datum der Abgabe - am besten selbst reinschreiben.
+
+\vfill
+
+\includegraphics[width=3cm]{akad_logo.png}
+
+AKAD Hochschule Stuttgart
+
+\end{titlepage}
+
+
+%\includegraphics[scale=0.35]{akad_logo.png}
+
+%\clearpage
 \normalsize

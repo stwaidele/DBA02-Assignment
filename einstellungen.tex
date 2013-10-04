@@ -5,29 +5,39 @@
 \newcommand*{\Betreff}{Assignment im Modul ABC01 - \\ Vorlage \LaTeX{}} 
 
 %Betreuer
-\newcommand*{\Betreuer}{Betreuer: Prof. Dr. Mustermann} 
+\newcommand*{\Betreuer}{Betreuer: Prof. Franz--Karl Schmatzer} 
 
 %Vor- und Nachname
-\newcommand*{\Name}{Max Mustermann}
+\newcommand*{\Name}{Stefan Waidele}
 
 %Straße und Hausnummer
-\newcommand*{\Strasse}{Musterstr. 1a} 
+\newcommand*{\Strasse}{Ensisheimer Straße 2} 
 
 %Plz und Ort
-\newcommand*{\PlzOrt}{12345 Musterhausen} 
+\newcommand*{\PlzOrt}{79395 Neuenburg am Rhein} 
 
 %Immatrikulationsnummer
-\newcommand*{\Immatrikulationsnummer}{123456}
+\newcommand*{\Immatrikulationsnummer}{102 81 71}
 
 %Email 
-\newcommand*{\Email}{max.mustermann@akad.de} 
+\newcommand*{\Email}{Stefan.Waidele@AKAD.de} 
 
 
 % Verzeichnisse (Wenn nicht benötigt, Zeile mit % auskommentieren oder löschen
 
-% Abbildungsverzeichnis 
+%% Abbildungsverzeichnis 
 \listoffigurestrue
-% Tabellenverzeichnis
-\listoftablestrue
-% Abkürzungsverzeichnis
-\acronymtrue
+%% Tabellenverzeichnis
+%\listoftablestrue
+%% Abkürzungsverzeichnis
+%\acronymtrue
+
+
+% Wittwen und Waisen verhindern
+\clubpenalty10000
+\widowpenalty10000
+\displaywidowpenalty=10000
+
+\usepackage[flushmargin,hang,ragged]{footmisc}
+\usepackage{lmodern} %Type1-Schriftart für nicht-englische Texte
+\usepackage{fancyhdr}

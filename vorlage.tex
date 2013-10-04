@@ -43,9 +43,9 @@
 \include{einstellungen}
 \usepackage[
 	pdftitle={\Titel},
-	pdfsubject={Eine kurze Beschreibung, worum es geht},
-	pdfauthor={Max Mustermann},
-	pdfkeywords={akad, assignment, meta, information, pdf, hyperref, latex}
+	pdfsubject={Datenbankgestützte PHP--Anwendung für eine Umfrage--Website},
+	pdfauthor={Stefan Waidele},
+	pdfkeywords={akad, dba02, assignment, wirtschaftsinformatik}
 	hyperfootnotes=false,
 	colorlinks=true,
 	linkcolor=black,
@@ -53,7 +53,7 @@
 	citecolor=black
 ]{hyperref}
 
-\renewcommand{\familydefault}{\rmdefault}
+%\renewcommand{\familydefault}{\rmdefault}
 \renewcommand{\bflabel}[1]{\normalfont{\normalsize{#1}}\hfill}
 
 %% Definition for Codeschnipsel im Fließtext
@@ -71,11 +71,16 @@
 \pagenumbering{roman}
 
 \begin{document}
+	
+\parskip=1em
+\parindent=0cm
+
 \include{deckblatt}
 
 \normalsize
 
 \begin{spacing}{1.0} % Verzeichnisse werden mit einzeiligem Abstand gesetzt
+\parskip=0em
 \newpage
 
 % Inhaltsverzeichnis
@@ -99,6 +104,7 @@
 \include{abkuerzungen}
 \fi
 
+\parskip=1em
 \end{spacing} 
 
 \clearpage

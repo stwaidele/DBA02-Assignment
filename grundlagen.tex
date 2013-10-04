@@ -1,34 +1,124 @@
-\section{Grundlagen}
-\subsection{Text}
+\section{Datenbank--Schema}
 
-\subsubsection{Fett}
-\textbf{Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.}
+\subsection{Tabelle: user}
+\begin{center}
+\tablehead{ \textbf{user} & & 
+\\ }
+\bottomcaption[Beschreibung]{Beschreibung. Quelle: Berger, Vorlesung, 2012, München }
+\begin{supertabular}{c|c|c}
+\hline
+email & varchar(255) &  \\
+pw & char(32) &  \\
+\end{supertabular}
+\end{center}
 
-\subsubsection{Kursiv}
-\textit{Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.}
 
-\subsubsection{Unterstrichen}
-orem ipsum \underline{dolor} sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod \underline{tempor} invidunt ut labore et dolore magna \underline{aliquyam} erat, sed diam voluptua.
+\begin{figure}[h]
+\begin{minted}[bgcolor=bg]{sql}
+CREATE TABLE user (
+  email VARCHAR(255) NOT NULL,
+  pw CHAR(32) NOT NULL,
+  create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`email`));
+\end{minted}
+\caption{SQL: CREATE TABLE user}
+\label{sql:tbluser}
+\end{figure}
 
-\subsection{Fußnote}
+Als Benutzername wird hierbei die E--Mail Adresse des Administrators genutzt. 
 
-Text mit Fußnote \footnote{Die Fußnote zum Text} 
+Das Passwort sollte nicht im Klartext in der Datenbank gespeichert werden. Ein \code{salted hash}\footnote{Also der Hashwert des Passworts, welches zuvor mit Applikationsspezifischen Zusatzdaten ergänzt wurde} schützt hier das Passwort vor dem Ausspähen durch den Administrator selbst\footnote{Seit Vodafone 2013 eine dokumentierte Gefahr} oder durch Angreifer.\\
+Die hier reservierten 32 Byte sind für den in der MySQL--Dokumentation\footnote{\cite{mysql-pcrypt}} emphohlenen MD5-Hash ausreichend. Da die entsprechende PHP--Dokumentation\footnote{\cite{php-pcrypt}} hier allerdings eine genau entgegengesetzte Empfehlung gibt, ist dieser Sicherheitsaspekt für ein Produktivsystem nochmals genauer zu prüfen.
 
-\subsection{Zitate}
+\subsection{Tabelle: frage}
+\begin{figure}[h]
+\begin{minted}[bgcolor=bg]{sql}
+CREATE TABLE frage (
+  fid INT NOT NULL AUTO_INCREMENT,
+  txt VARCHAR(1024) NOT NULL,
+  PRIMARY KEY (`fid`));
+\end{minted}
+\caption{SQL: CREATE TABLE frage}
+\label{sql:tblfrage}
+\end{figure}
 
-Dies ist ein ganz kurzer Beispieltext \footnote{\cite{Baeumle-Courth2004}}. Und noch ein weites Zitat \footnote{\cite{Torvalds2001}}
-\\
-Zitate auf Webseiten \footnote{\cite{gabler:individualsoftware}} \footnote{\cite{gabler:standardsoftware}}
-\\
-http://www.literatur-generator.de/
+\subsection{Tabelle: antwort}
+\begin{figure}[h]
+\begin{minted}[bgcolor=bg]{sql}
+CREATE TABLE antwort (
+  aid INT NOT NULL AUTO_INCREMENT,
+  nr  INT NULL,
+  txt VARCHAR(1024) NOT NULL,
+  fid INT NOT NULL,
+  PRIMARY KEY (`aid`),
+  FOREIGN KEY (`fid`) REFERENCES frage(`fid`));
+\end{minted}
+\caption{SQL: CREATE TABLE antwort}
+\label{sql:tblantwort}
+\end{figure}
 
-\subsection{Aufzählung}
+\subsection{Tabelle: geantwortet}
+\begin{figure}[h]
+\begin{minted}[bgcolor=bg]{sql}
+CREATE TABLE geantwortet (
+  gid INT NOT NULL AUTO_INCREMENT,
+  aid INT NOT NULL,
+  zs TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`gid`),
+  FOREIGN KEY (`aid`) REFERENCES antwort(`aid`));
+\end{minted}
+\caption{SQL: CREATE TABLE geantwortet}
+\label{sql:tblgeantwortet}
+\end{figure}
 
-\begin{itemize}
-\item\textit{Punkt 1:} Text
-\item Punkt 2: Text
-\item Punkt 3: \\ Text
-\end{itemize}
+\subsection{Query: Frage -- Text}
+Wird für die Abfrage und Auswertung benötigt.
 
-\subsection{Abkürzungen}
-Hier werden \ac{Abk} aus dem Verzeichnis aufgerufen und gleich nochmal die gleiche \ac{Abk}.
+\begin{figure}[h]
+\begin{minted}[bgcolor=bg]{sql}
+select txt from frage where fid = <n>;
+\end{minted}
+\caption{SQL: Text von Frage <n>}
+\label{sql:qfragetxt}
+\end{figure}
+
+\subsection{Query: Antwortmöglichkeiten}
+Wird für die Abfrage benötigt.
+
+\begin{figure}[h]
+\begin{minted}[bgcolor=bg]{sql}
+select antwort.txt
+	from antwort
+	where fid = <n> 
+\end{minted}
+\caption{SQL: Mögliche Antworten für Frage <n>}
+\label{sql:qantwnum}
+\end{figure}
+
+
+\subsection{Query: Anzahl der gegebenen Antworten}
+Wird für die Auswertung benötigt: 100\%
+
+\begin{figure}[h]
+\begin{minted}[bgcolor=bg]{sql}
+select count(geantwortet.aid) 
+	from antwort, geantwortet 
+	where geantwortet.aid = antwort.aid and antwort.fid = <n>;
+\end{minted}
+\caption{SQL: Antwortzahl 100\% von Frage <n>}
+\label{sql:qantw100}
+\end{figure}
+
+\subsection{Query: Gegebene Antworten und Häufigkeit}
+Wird für die Auswertung benötigt.
+
+\begin{figure}[h]
+\begin{minted}[bgcolor=bg]{sql}
+select antwort.txt, count(geantwortet.aid) 
+	from antwort, geantwortet 
+	where geantwortet.aid = antwort.aid and antwort.fid = <n> 
+	group by geantwortet.aid;
+\end{minted}
+\caption{SQL: Gegebene Antworten mit Häufigkeit für Frage <n>}
+\label{sql:qantwnum}
+\end{figure}
