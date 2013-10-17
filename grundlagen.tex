@@ -1,17 +1,30 @@
-\section{Das Entity--Relationship Modell}
-\section{Entwurfsmuster: Facade}
+\section{Grundlagen}
+\subsection{Das Entity--Relationship Modell}
+\subsection{Entwurfsmuster: Fassade}
 
-\section{Entwurfsmuster: Singleton}
+Beim Fassaden--Entwurfsmuster gewährt eine Klasse einen einfachen Zugriff auf ein beliebig komplextes System weiterer Klassen. Den Nutzer der Fassadenklasse benötigt kein Wissen über die Funktionsweise der Klassenhierarchie hinter der Fassade, kann jedoch auf diese zugreifen, falls die bereitgestellte Funktionalität nicht ausreicht\footnote{vgl. \cite{Balzert}, Seite 367ff}.
 
-Das Singleton--Entwurfsmuster stellt sicher, dass es in einem Programm von einer Klasse nur ein einziges Mal instanziiert wird. Allen Nutzern der Klasse wird dann eine Referenz auf ebendiese Instanz übergeben, der Zugriff erfolgt jeweils auf die gleichen Daten.
+In der hier erstellten Anwendung wird der Zugriff auf die Datenbank über die Fassaden--Klasse \code{SQL} realisiert. Diese erstellt das Low--Level Obkekt der Klasse \code{Datenbank}, bereitet die notwendigen SQL--Abfragen vor und gibt die Resultate dann als String oder als Array von Strings zurück. Die Aufrufenden Routinen benötigen kein Wissen über die verwendete Datenbankschnittstelle oder über die Details der Abfragen. Sollten die in der Klassendefinition vorgesehenen Abfragen allerdings nicht ausreichen, kann auch direkt auf die Klasse Datenbank zugegriffen werden.
+
+\subsection{Entwurfsmuster: Singleton}
+
+Das Klasse nach dem Singleton--Entwurfsmuster stellt sicher, dass es in einem Programm von einer Klasse nur ein einziges Mal instanziiert wird. Allen Nutzern der Klasse wird dann eine Referenz auf ebendiese Instanz übergeben, der Zugriff erfolgt jeweils auf die gleichen Daten, die somit global zur Verfügung gestellt werden\footnote{vgl. \cite{Balzert}, Seite 361ff}.
 
 Somit bildet das Singleton--Designpattern eine passende Grundlage für die Nutzerverwaltung, da immer nur ein Benutzer angemeldet sein kann\footnote{Dies gilt jeweils pro Browser--Instanz. In einem weiteren Browserfenster mit eigenen Cookies kann sich ein weiterer Nutzer anmelden, jedoch auch wieder nur einer}.
 
-Das Singleton-Entwurfsmuster kann aufgrund seiner Eigenschaften als objektorientierte Umsetzung von globalen Variablen mit all deren Vor-- und Nachteilen gesehen werden und wird daher auch oft als „Anti--Pattern“ kritisiert\footnote{cite{gof} TODO - Quelle!}
+Das Singleton-Entwurfsmuster kann aufgrund seiner Eigenschaften als objektorientierte Umsetzung von globalen Variablen mit all deren Vor-- und Nachteilen gesehen werden und wird daher auch als „Anti--Pattern“ kritisiert\footnote{vgl. \cite{Hauer:singleton}}
 
-\section{PHP--Schnittstelle --- Session--Cookies}
-\section{PHP--Schnittstelle --- PDO}
-\section{HTML--Designframework --- Bootstrap}
+\subsection{PHP--Schnittstelle --- Session--Cookies}
+
+Da HTTP ein zustandsloses Protokoll ist, wird ein Mechanismus benötigt, mit dem gespeichert werden kann, ob es sich beim Besucher der Website um einen angemeldeten Benutzer handelt oder nicht. Die von PHP bereitgestellten Session--Cookies können eine begrenzte Menge Daten (ca. 4kB), die im Browser gespeichert wird, von Seitenaufruf zu Seitenaufruf weitergeben\footnote{Vgl. \cite{Theis}, S. 417ff}.
+
+Die hier besprochene Anwendung verwedet diese Möglichkeit um den Anmeldestatus (\code{angemeldet==TRUE} bzw. \code{angemeldet==FALSE}) und den Benutzernamen zu speichern.
+
+\subsection{PHP--Schnittstelle --- PDO}
+
+\subsection{HTML--Designframework --- Bootstrap}
+
+\subsection{JavaScript--Frontendramework --- jQuery}
 
 
 
