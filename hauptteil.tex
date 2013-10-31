@@ -50,7 +50,7 @@ Als Benutzername und auch als Primärschlüssel wird die E--Mail Adresse des Adm
 Das Passwort sollte nicht im Klartext in der Datenbank gespeichert werden. Ein \code{salted hash}\footnote{Also der Hashwert des Passworts, welches zuvor mit Applikationsspezifischen Zusatzdaten ergänzt wurde} schützt hier das Passwort vor dem Ausspähen durch den Administrator selbst\footnote{Spätestens seit dem Datenklau bei Vodafone\footnote{\cite{vodafone}} eine dokumentierte Gefahr} oder durch Angreifer.\\
 Die hier reservierten 32 Byte sind für den in der MySQL--Dokumentation\footnote{\cite{mysql-pcrypt}} emphohlenen MD5-Hash ausreichend. Da die entsprechende PHP--Dokumentation\footnote{\cite{php-pcrypt}} hier allerdings eine genau entgegengesetzte Empfehlung gibt, ist dieser Sicherheitsaspekt für ein Produktivsystem nochmals genauer zu prüfen.
 
-\subsubsection{Tabelle: frage}
+\subsubsection{Tabelle: frage --- Fragestellungen}
 \begin{figure}[H]
 \begin{minted}[bgcolor=bg]{sql}
 CREATE TABLE frage (
@@ -64,7 +64,7 @@ CREATE TABLE frage (
 
 In der Tabelle „Frage“ wird lediglich der Text der Frage sowie die eindeutige Frage--ID gespeichert. Letztere dient als Primärschlüssel.
 
-\subsubsection{Tabelle: antwort}
+\subsubsection{Tabelle: antwort --- Antwortmöglichkeiten}
 \begin{figure}[H]
 \begin{minted}[bgcolor=bg]{sql}
 CREATE TABLE antwort (
@@ -83,7 +83,7 @@ Aufgrund der Modellierung als schwache Entity setzt sich der Primärschlüssel d
 
 Die Integritätsbedingung wird so definiert, dass beim Löschen einer Frage auch die zugehörigen Antwortmöglichkeiten gelöscht werden.
 
-\subsubsection{Tabelle: geantwortet}
+\subsubsection{Tabelle: geantwortet --- gegebene Antworten}
 \begin{figure}[H]
 \begin{minted}[bgcolor=bg]{sql}
 CREATE TABLE geantwortet (
