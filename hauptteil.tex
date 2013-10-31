@@ -33,7 +33,7 @@ Aufgrund des in Abbildung \ref{fig:erd} auf Seite \pageref{fig:erd} dargestelten
 \subsection{Umsetzung in SQL}
 
 \subsubsection{Tabelle: user --- Benutzerverwaltung}
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{minted}[bgcolor=bg]{sql}
 CREATE TABLE user (
   email VARCHAR(255) NOT NULL,
@@ -50,46 +50,59 @@ Als Benutzername und auch als Primärschlüssel wird die E--Mail Adresse des Adm
 Das Passwort sollte nicht im Klartext in der Datenbank gespeichert werden. Ein \code{salted hash}\footnote{Also der Hashwert des Passworts, welches zuvor mit Applikationsspezifischen Zusatzdaten ergänzt wurde} schützt hier das Passwort vor dem Ausspähen durch den Administrator selbst\footnote{Spätestens seit dem Datenklau bei Vodafone\footnote{\cite{vodafone}} eine dokumentierte Gefahr} oder durch Angreifer.\\
 Die hier reservierten 32 Byte sind für den in der MySQL--Dokumentation\footnote{\cite{mysql-pcrypt}} emphohlenen MD5-Hash ausreichend. Da die entsprechende PHP--Dokumentation\footnote{\cite{php-pcrypt}} hier allerdings eine genau entgegengesetzte Empfehlung gibt, ist dieser Sicherheitsaspekt für ein Produktivsystem nochmals genauer zu prüfen.
 
-\subsection{Tabelle: frage}
-\begin{figure}[h]
+\subsubsection{Tabelle: frage}
+\begin{figure}[H]
 \begin{minted}[bgcolor=bg]{sql}
 CREATE TABLE frage (
   fid INT NOT NULL AUTO_INCREMENT,
   txt VARCHAR(1024) NOT NULL,
-  PRIMARY KEY (`fid`));
+  CONSTRAINT pk_frage PRIMARY KEY (`fid`));
 \end{minted}
 \caption{SQL: CREATE TABLE frage}
 \label{sql:tblfrage}
 \end{figure}
 
-\subsection{Tabelle: antwort}
-\begin{figure}[h]
+In der Tabelle „Frage“ wird lediglich der Text der Frage sowie die eindeutige Frage--ID gespeichert. Letztere dient als Primärschlüssel.
+
+\subsubsection{Tabelle: antwort}
+\begin{figure}[H]
 \begin{minted}[bgcolor=bg]{sql}
 CREATE TABLE antwort (
+  fid INT NOT NULL, 
   aid INT NOT NULL AUTO_INCREMENT,
   nr  INT NULL,
   txt VARCHAR(1024) NOT NULL,
-  fid INT NOT NULL,
-  PRIMARY KEY (`aid`),
-  FOREIGN KEY (`fid`) REFERENCES frage(`fid`));
+  CONSTRAINT pk_antwort PRIMARY KEY (fid, aid),
+  CONSTRAINT fk_antwort_frage_fid FOREIGN KEY (fid) REFERENCES frage(fid) ON UPDATE CASCADE ON DELETE CASCADE );
 \end{minted}
 \caption{SQL: CREATE TABLE antwort}
 \label{sql:tblantwort}
 \end{figure}
 
-\subsection{Tabelle: geantwortet}
-\begin{figure}[h]
+Aufgrund der Modellierung als schwache Entity setzt sich der Primärschlüssel der Tabelle „Antwort“ aus der Frage--ID sowie der Antwort--ID zusammen. Zusätzlich wird der Antworttext sowie eine frei zu vergebende Nummer gespeichert, welche für die Sortierreihenfolge bei der Anzeige genutzt werden kann.
+
+Die Integritätsbedingung wird so definiert, dass beim Löschen einer Frage auch die zugehörigen Antwortmöglichkeiten gelöscht werden.
+
+\subsubsection{Tabelle: geantwortet}
+\begin{figure}[H]
 \begin{minted}[bgcolor=bg]{sql}
 CREATE TABLE geantwortet (
-  gid INT NOT NULL AUTO_INCREMENT,
+  fid INT NOT NULL,
   aid INT NOT NULL,
+  gid INT NOT NULL AUTO_INCREMENT,
   zs TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`gid`),
-  FOREIGN KEY (`aid`) REFERENCES antwort(`aid`));
+  CONSTRAINT pk_geantwortet PRIMARY KEY (fid, aid, gid),
+  CONSTRAINT fk_geantwortet_antwort_aid FOREIGN KEY (fid, aid) REFERENCES antwort(fid, aid) ON UPDATE CASCADE ON DELETE CASCADE );
 \end{minted}
 \caption{SQL: CREATE TABLE geantwortet}
 \label{sql:tblgeantwortet}
 \end{figure}
+
+Für die Speicherung der gegebenen Antworten in der Tabelle „geantwortet“ genügt der aus Frage--ID, Antwort--ID und Geantwortet--ID zusammengesetzte Primärschlüssel. Zusätzlich wird noch der jeweilige Zeitstempel für spätere Auswertungen erfasst.
+
+Auch hier stellt die Integritätsbedingung sicher, dass beim Wegfall der entsprechenden Antwortmöglichkeit keine undefinierten gegebene Antworten zurückbleiben.
+
+
 
 \subsection{Query: Frage -- Text}
 Wird für die Abfrage und Auswertung benötigt.
