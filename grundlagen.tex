@@ -1,5 +1,5 @@
 \section{Grundlagen}
-\subsection{Das Entity--Relationship Modell}
+
 \subsection{Entwurfsmuster: Fassade}
 
 Beim Fassaden--Entwurfsmuster gewährt eine Klasse einen einfachen Zugriff auf ein beliebig komplextes System weiterer Klassen. Den Nutzer der Fassadenklasse benötigt kein Wissen über die Funktionsweise der Klassenhierarchie hinter der Fassade, kann jedoch auf diese zugreifen, falls die bereitgestellte Funktionalität nicht ausreicht\footnote{vgl. \cite{Balzert}, Seite 367ff}.
@@ -14,147 +14,25 @@ Somit bildet das Singleton--Designpattern eine passende Grundlage für die Nutze
 
 Das Singleton-Entwurfsmuster kann aufgrund seiner Eigenschaften als objektorientierte Umsetzung von globalen Variablen mit all deren Vor-- und Nachteilen gesehen werden und wird daher auch als „Anti--Pattern“ kritisiert\footnote{vgl. \cite{Hauer:singleton}}
 
-\subsection{PHP--Schnittstelle --- Session--Cookies}
+\subsection{PHP--Schnittstelle: Session--Cookies}
 
-Da HTTP ein zustandsloses Protokoll ist, wird ein Mechanismus benötigt, mit dem gespeichert werden kann, ob es sich beim Besucher der Website um einen angemeldeten Benutzer handelt oder nicht. Die von PHP bereitgestellten Session--Cookies können eine begrenzte Menge Daten (ca. 4kB), die im Browser gespeichert wird, von Seitenaufruf zu Seitenaufruf weitergeben\footnote{Vgl. \cite{Theis}, S. 417ff}.
+Da HTTP ein zustandsloses Protokoll ist, wird ein Mechanismus benötigt, mit dem gespeichert werden kann, ob es sich beim Besucher der Website um einen angemeldeten Benutzer handelt oder nicht. Die von PHP bereitgestellten Session--Cookies können eine begrenzte Menge Daten (ca. 4kB), die im Browser gespeichert wird, von Seitenaufruf zu Seitenaufruf weitergeben\footnote{vgl. \cite{Theis}, S. 417ff}.
 
 Die hier besprochene Anwendung verwedet diese Möglichkeit um den Anmeldestatus (\code{angemeldet==TRUE} bzw. \code{angemeldet==FALSE}) und den Benutzernamen zu speichern.
 
-\subsection{PHP--Schnittstelle --- PDO}
+\subsection{PHP--Schnittstelle: PDO}
 
-\subsection{HTML--Designframework --- Bootstrap}
+Der Datenbankzugriff wird in der beschriebenen Anwendung über die PDO--Klasse\footnote{PDO: PHP Data Object} realisiert. Diese sorgt für den Verbindungsaufbau zur MySQL--Datenbank und stellt Schutzmechanismen gegen SQL--Injection Angriffe bereit. Für einen solchen Angriff müssen die Benutzereingaben ungeprüft in die SQL--Abfrage (z.B. durch einfache Variablen--Substitution) übernommen werden. Diese wird dadurch dann so verändert, dass sensible Daten ausgespäht oder die Daten verändert bzw. gelöscht werden können\footnote{vgl. \cite{friedl:sqlinjection}}. Die überprüfung der Eingabewerte ist somit in jedem Falle empfehlenswert und aufgrund des öffentlichen Charakters der Webanwendung hier besonders wichtig.
 
-\subsection{JavaScript--Frontendramework --- jQuery}
+\subsection{HTML--Designframework: Bootstrap}
 
+Die hier vorgestellte Anwendung realisiert ihr Aussehen zum großen Teil mit dem CSS--Framework „Bootstrap“, welches moderne Designprinzipien wie variables, mehrspaltiges Layout oder gar Responsive Layout, welches sich an die unterschiedlichen Bildschirmgrößen vom Smartphone bis zum wandfüllenden HD--TV anpassen kann, anbietet\footnote{Lizenz: Apache Licence V2.0, Download unter \url{http://getbootstrap.com/}}.
 
+Die Anwendung selbst muss den entsprechenden Elementen lediglich die gewünschten CSS--Klassen zuweisen. Der Entwickler wird somit nicht mit den Design--Details belastet.
 
+Trotz allem ist eine eigene Anpassung des Designs wie in der Datei \code{…/style.css} zu sehen ist möglich. 
 
+\subsection{JavaScript--Frontendramework: jQuery}
 
+Bei der Realiierung der Eingabeseite für neue Fragen und Antwortmöglichkeiten wird die JavaScript Bibliothek „jQuery“ verwendet, um weitere Antwortmöglichkeiten einfügen oder diese auch wieder löschen zu können. jQuery bietet auch noch weitere Funktionen für interaktive Benutzeroberflächen, die allerdings in der hier beschriebenen Anwendung nicht genutzt werden.\footnote{Lizenz: MIT-Licence, Download unter \url{http://jquery.com/}}
 
-
-
-
-\section{Datenbank--Schema}
-
-\subsection{Tabelle: user}
-\begin{center}
-\tablehead{ \textbf{user} & & 
-\\ }
-\bottomcaption[Beschreibung]{Beschreibung. Quelle: Berger, Vorlesung, 2012, München }
-\begin{supertabular}{c|c|c}
-\hline
-email & varchar(255) &  \\
-pw & char(32) &  \\
-\end{supertabular}
-\end{center}
-
-
-\begin{figure}[h]
-\begin{minted}[bgcolor=bg]{sql}
-CREATE TABLE user (
-  email VARCHAR(255) NOT NULL,
-  pw CHAR(32) NOT NULL,
-  create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`email`));
-\end{minted}
-\caption{SQL: CREATE TABLE user}
-\label{sql:tbluser}
-\end{figure}
-
-Als Benutzername wird hierbei die E--Mail Adresse des Administrators genutzt. 
-
-Das Passwort sollte nicht im Klartext in der Datenbank gespeichert werden. Ein \code{salted hash}\footnote{Also der Hashwert des Passworts, welches zuvor mit Applikationsspezifischen Zusatzdaten ergänzt wurde} schützt hier das Passwort vor dem Ausspähen durch den Administrator selbst\footnote{Seit Vodafone 2013 eine dokumentierte Gefahr} oder durch Angreifer.\\
-Die hier reservierten 32 Byte sind für den in der MySQL--Dokumentation\footnote{\cite{mysql-pcrypt}} emphohlenen MD5-Hash ausreichend. Da die entsprechende PHP--Dokumentation\footnote{\cite{php-pcrypt}} hier allerdings eine genau entgegengesetzte Empfehlung gibt, ist dieser Sicherheitsaspekt für ein Produktivsystem nochmals genauer zu prüfen.
-
-\subsection{Tabelle: frage}
-\begin{figure}[h]
-\begin{minted}[bgcolor=bg]{sql}
-CREATE TABLE frage (
-  fid INT NOT NULL AUTO_INCREMENT,
-  txt VARCHAR(1024) NOT NULL,
-  PRIMARY KEY (`fid`));
-\end{minted}
-\caption{SQL: CREATE TABLE frage}
-\label{sql:tblfrage}
-\end{figure}
-
-\subsection{Tabelle: antwort}
-\begin{figure}[h]
-\begin{minted}[bgcolor=bg]{sql}
-CREATE TABLE antwort (
-  aid INT NOT NULL AUTO_INCREMENT,
-  nr  INT NULL,
-  txt VARCHAR(1024) NOT NULL,
-  fid INT NOT NULL,
-  PRIMARY KEY (`aid`),
-  FOREIGN KEY (`fid`) REFERENCES frage(`fid`));
-\end{minted}
-\caption{SQL: CREATE TABLE antwort}
-\label{sql:tblantwort}
-\end{figure}
-
-\subsection{Tabelle: geantwortet}
-\begin{figure}[h]
-\begin{minted}[bgcolor=bg]{sql}
-CREATE TABLE geantwortet (
-  gid INT NOT NULL AUTO_INCREMENT,
-  aid INT NOT NULL,
-  zs TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`gid`),
-  FOREIGN KEY (`aid`) REFERENCES antwort(`aid`));
-\end{minted}
-\caption{SQL: CREATE TABLE geantwortet}
-\label{sql:tblgeantwortet}
-\end{figure}
-
-\subsection{Query: Frage -- Text}
-Wird für die Abfrage und Auswertung benötigt.
-
-\begin{figure}[h]
-\begin{minted}[bgcolor=bg]{sql}
-select txt from frage where fid = <n>;
-\end{minted}
-\caption{SQL: Text von Frage <n>}
-\label{sql:qfragetxt}
-\end{figure}
-
-\subsection{Query: Antwortmöglichkeiten}
-Wird für die Abfrage benötigt.
-
-\begin{figure}[h]
-\begin{minted}[bgcolor=bg]{sql}
-select antwort.txt
-	from antwort
-	where fid = <n> 
-\end{minted}
-\caption{SQL: Mögliche Antworten für Frage <n>}
-\label{sql:qantwnum}
-\end{figure}
-
-
-\subsection{Query: Anzahl der gegebenen Antworten}
-Wird für die Auswertung benötigt: 100\%
-
-\begin{figure}[h]
-\begin{minted}[bgcolor=bg]{sql}
-select count(geantwortet.aid) 
-	from antwort, geantwortet 
-	where geantwortet.aid = antwort.aid and antwort.fid = <n>;
-\end{minted}
-\caption{SQL: Antwortzahl 100\% von Frage <n>}
-\label{sql:qantw100}
-\end{figure}
-
-\subsection{Query: Gegebene Antworten und Häufigkeit}
-Wird für die Auswertung benötigt.
-
-\begin{figure}[h]
-\begin{minted}[bgcolor=bg]{sql}
-select antwort.txt, count(geantwortet.aid) 
-	from antwort, geantwortet 
-	where geantwortet.aid = antwort.aid and antwort.fid = <n> 
-	group by geantwortet.aid;
-\end{minted}
-\caption{SQL: Gegebene Antworten mit Häufigkeit für Frage <n>}
-\label{sql:qantwnum}
-\end{figure}
