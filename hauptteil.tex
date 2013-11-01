@@ -124,7 +124,7 @@ Die Implementation der Klassen ist im beigefügten Quelltext in den Dateien \cod
 
 \subsection{Klasse: Datenbank --- Low--Level Zugriff}
 
-Die Klasse „Datenbank“ stellt die unterste Ebene des Datenzugriffs der Anwendung dar. Aufgrund der von PHP zur Verfügung gestellten PDO--Klasse greift jedoch auch diese Klasse nicht direkt auf die Datenbank  zu. Das PDO--Objekt ist als Attibut in der Klasse vorhanden. Die für den Zugriff notwendigen Angaben werden im Konstruktor aus der Konfigurationsdetails gelesen und anschließend wird die Verbindung zur Datenbank hergestellt. 
+Die Klasse „Datenbank“ stellt die unterste Ebene des Datenzugriffs der Anwendung dar. Aufgrund der von PHP zur Verfügung gestellten PDO--Klasse greift jedoch auch diese Klasse nicht direkt auf die Datenbank  zu. Das PDO--Objekt ist als Attibut in der Klasse vorhanden. Die für den Zugriff notwendigen Angaben werden im Konstruktor aus der Konfigurationsdatei \code{.../includes/dbconf.ini} gelesen und anschließend wird die Verbindung zur Datenbank hergestellt. 
 
 Die Datenbankverbindung bleibt so lange bestehen, wie die Instanz existiert. Ein Objekt mit geschlossener Datenbankverbindung würde die Notwendigkeit von zusätzlichen Fehlerprüfungen bzw. der erneuten Herstellung der Verbindung mit sich bringen. Um hierauf ausdrücklich hinzuweisen ist die Methode \code{close()} ohne Funktion definiert.
  
@@ -159,9 +159,45 @@ Die Funktion \code{setAngemeldet()} ist eine private Hilfsmethode, mit der das F
 Die Funktion \code{getAngemeldet()} dient zur Anfrage des Anmeldestatus. Sie wird immer dann aus der Anwendung heraus aufgerufen, wenn der Seitenaufbau für angemeldete Benutzer anders sein soll, wie für nicht angemeldete. Am auffällisten ist dies beim Aufruf der Seite zur Eingabe von neuen Fragen. Hier wird dem nicht angemeldeten Nutzer das Login--Formular angezeigt, wärend dem angemeldeten Nutzer die gewünschte Funktion direkt zur Verfügung steht.\\
 Aber auch in Details können sich die Seiten unterscheiden: Die in der Seitenleiste angebotenen Links können schon entsprechend angepasst sein. Auf diese Weise werden dem Nutzer nur die Möglichkeiten gezeigt, die für ihn tatsächlich relevant sind. 
 
-\section{Seitenstruktur}
+\section{Umsetzung in HTML \& PHP}
 
-\begin{figure}[H]
+\subsection{Seitenstruktur}
+
+Alle Seiten der Anwendung sind nach dem gleichen Muster aufgebaut. Sie werden von der Datei \code{index.php} erzeugt. Hier werden wie in Abbildung \ref{fig:struktur} auf Seite \pageref{fig:struktur} die Seitenelemente aus den verschiedenen Include--Dateien für den Kopfbereich, die Navigationsleiste am rechten Rand und dem Fußbereich zusammengesetzt\footnote{Darstellung vereinfacht}. Der eigentliche Funktionsbereich\footnote{Frage anzeigen, Antworten speichern und auswerten, anmelden, abmelden, Eingabemaske für neue Fragen sowie das Abspeichern der neuen Fragen} werden von den PHP--Dateien im Verzeichniss \code{.../pages/} übernommen.
+
+Diese Seitenelemente und Programmteile werden in einer Struktur aus \code{DIV}--Elementen angeordnet, welche durch die CSS--Klassen des Bootstrap--Frameworks zu einem modernen, responsiven Layout ausgezeichnet werden. Der Anwendungsentwickler braucht sich somit nicht um die optimale Darstellung der HTML--Seiten auf Desktoprechnern, Tabletts oder Smartphones zu kümmern. Jede Bildschirmgröße erhält durch Bootstrap automatisch ein speziell abgestimmtes Layout.
+
+\begin{figure}[h]
+\begin{minted}[bgcolor=bg]{php}
+<?php 
+  include($_SERVER['DOCUMENT_ROOT'].'/includes/header.php'); 
+?>
+<div class="row">
+ <div class="col-md-8">
+  <?php 
+    include($_SERVER['DOCUMENT_ROOT'].'/pages/'. $show . '.php'); 
+  ?> 
+ </div>
+ <div class="col-md-4">
+  <?php 
+    include($_SERVER['DOCUMENT_ROOT'].'/includes/sidebar.php'); 
+  ?>
+ </div>	  
+</div>
+<?php 
+  include($_SERVER['DOCUMENT_ROOT'].'/includes/footer.php'); 
+?>
+\end{minted}
+\caption{HTML: Seitenstruktur und PHP--Includes}
+\label{fig:struktur}
+\end{figure}
+
+\subsection{Layoutanpassungen mit CSS}
+
+
+
+
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=\textwidth]{zustaende.jpg}
 \caption{HTML--Seiten und Verlinkungen}
