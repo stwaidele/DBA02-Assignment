@@ -2,37 +2,37 @@
 \label{sec:grundlagen}
 \subsection{Entwurfsmuster: Fassade}
 
-Beim Fassaden--Entwurfsmuster gewährt eine Klasse einen einfachen Zugriff auf ein beliebig komplextes System weiterer Klassen. Den Nutzer der Fassadenklasse benötigt kein Wissen über die Funktionsweise der Klassenhierarchie hinter der Fassade, kann jedoch auf diese zugreifen, falls die bereitgestellte Funktionalität nicht ausreicht\footnote{vgl. \cite{Balzert}, Seite 367ff}.
+Beim Fassaden--Entwurfsmuster gewährt eine Klasse einen einfachen Zugriff auf ein beliebig komplexes System weiterer Klassen. Der Nutzer der Fassadenklasse benötigt kein Wissen über die Funktionsweise der Klassenhierarchie hinter der Fassade, kann jedoch auf diese zugreifen, falls die bereitgestellte Funktionalität nicht ausreicht\footnote{vgl. \cite{Balzert}, Seite 367ff}.
 
-In der hier erstellten Anwendung wird der Zugriff auf die Datenbank über die Fassaden--Klasse \code{SQL} realisiert. Diese erstellt das Low--Level Obkekt der Klasse \code{Datenbank}, bereitet die notwendigen SQL--Abfragen vor und gibt die Resultate dann als String oder als Array von Strings zurück. Die Aufrufenden Routinen benötigen kein Wissen über die verwendete Datenbankschnittstelle oder über die Details der Abfragen. Sollten die in der Klassendefinition vorgesehenen Abfragen allerdings nicht ausreichen, kann auch direkt auf die Klasse Datenbank zugegriffen werden.
+In der hier erstellten Anwendung wird der Zugriff auf die Datenbank über die Fassaden--Klasse \code{SQL} realisiert. Diese erstellt das Low--Level Objekt der Klasse \code{Datenbank}, bereitet die notwendigen SQL--Abfragen vor und gibt die Resultate dann als String oder als Array von Strings zurück. Die aufrufenden Routinen benötigen kein Wissen über die verwendete Datenbankschnittstelle oder über die Details der Abfragen. Sollten die in der Klassendefinition vorgesehenen Abfragen allerdings nicht ausreichen, kann auch direkt auf die Klasse \code{Datenbank} zugegriffen werden.
 
 \subsection{Entwurfsmuster: Singleton}
 
-Das Klasse nach dem Singleton--Entwurfsmuster stellt sicher, dass es in einem Programm von einer Klasse nur ein einziges Mal instanziiert wird. Allen Nutzern der Klasse wird dann eine Referenz auf ebendiese Instanz übergeben, der Zugriff erfolgt jeweils auf die gleichen Daten, die somit global zur Verfügung gestellt werden\footnote{vgl. \cite{Balzert}, Seite 361ff}.
+Das Klasse nach dem Singleton--Entwurfsmuster stellt sicher, dass sie in einem Programm nur ein einziges Mal instanziiert wird. Allen Nutzern der Klasse wird dann eine Referenz auf ebendiese Instanz übergeben. Der Zugriff erfolgt jeweils auf die gleichen Daten, die somit global zur Verfügung gestellt werden\footnote{vgl. \cite{Balzert}, Seite 361ff}.
 
-Somit bildet das Singleton--Designpattern eine passende Grundlage für die Nutzerverwaltung, da immer nur ein Benutzer angemeldet sein kann\footnote{Dies gilt jeweils pro Browser--Instanz. In einem weiteren Browserfenster mit eigenen Cookies kann sich ein weiterer Nutzer anmelden, jedoch auch wieder nur einer}.
+Somit bildet das Singleton--Entwurfsmuster eine passende Grundlage für die Nutzerverwaltung, da immer nur ein Benutzer angemeldet sein kann\footnote{Dies gilt jeweils pro Browser--Instanz. In einem weiteren Browserfenster mit eigenen Cookies kann sich ein weiterer Nutzer anmelden, jedoch auch wieder nur einer}.
 
-Das Singleton-Entwurfsmuster kann aufgrund seiner Eigenschaften als objektorientierte Umsetzung von globalen Variablen mit all deren Vor-- und Nachteilen gesehen werden und wird daher auch als „Anti--Pattern“ kritisiert\footnote{vgl. \cite{Hauer:singleton}}
+Das Singleton-Entwurfsmuster kann aufgrund seiner Eigenschaften als objektorientierte Umsetzung von globalen Variablen mit all deren Vor-- und Nachteilen gesehen werden und wird daher auch als „Anti--Pattern“ kritisiert\footnote{vgl. \cite{Hauer:singleton}}.
 
 \subsection{PHP--Schnittstelle: Session--Cookies}
 
-Da HTTP ein zustandsloses Protokoll ist, wird ein Mechanismus benötigt, mit dem gespeichert werden kann, ob es sich beim Besucher der Website um einen angemeldeten Benutzer handelt oder nicht. Die von PHP bereitgestellten Session--Cookies können eine begrenzte Menge Daten (ca. 4kB), die im Browser gespeichert wird, von Seitenaufruf zu Seitenaufruf weitergeben\footnote{vgl. \cite{Theis}, S. 417ff}.
+Da HTTP ein zustandsloses Protokoll ist, wird ein Mechanismus benötigt, mit dem gespeichert werden kann, ob es sich beim Besucher der Website um einen angemeldeten Benutzer handelt oder nicht. Die von PHP bereitgestellten Session--Cookies können eine begrenzte Menge Daten (ca. 4kB), die im Browser gespeichert wird, von Seitenaufruf zu Seitenaufruf weitergeben werden\footnote{vgl. \cite{Theis}, S. 417ff}.
 
-Die hier besprochene Anwendung verwedet diese Möglichkeit um den Anmeldestatus (\code{angemeldet==TRUE} bzw. \code{angemeldet==FALSE}) und den Benutzernamen zu speichern.
+Die hier besprochene Anwendung verwendet diese Möglichkeit um den Anmeldestatus (\code{angemeldet==TRUE} bzw. \code{angemeldet==FALSE}) und den Benutzernamen zu speichern.
 
 \subsection{PHP--Schnittstelle: PDO}
 
-Der Datenbankzugriff wird in der beschriebenen Anwendung über die PDO--Klasse\footnote{PDO: PHP Data Object} realisiert. Diese sorgt für den Verbindungsaufbau zur MySQL--Datenbank und stellt Schutzmechanismen gegen SQL--Injection Angriffe bereit. Für einen solchen Angriff müssen die Benutzereingaben ungeprüft in die SQL--Abfrage (z.B. durch einfache Variablen--Substitution) übernommen werden. Diese wird dadurch dann so verändert, dass sensible Daten ausgespäht oder die Daten verändert bzw. gelöscht werden können\footnote{vgl. \cite{friedl:sqlinjection}}. Die überprüfung der Eingabewerte ist somit in jedem Falle empfehlenswert und aufgrund des öffentlichen Charakters der Webanwendung hier besonders wichtig.
+Der Datenbankzugriff wird in der beschriebenen Anwendung über die PDO--Klasse\footnote{PDO: PHP Data Object} realisiert. Diese sorgt für den Verbindungsaufbau zur MySQL--Datenbank und stellt Schutzmechanismen gegen SQL--Injection Angriffe bereit. Für einen solchen Angriff müssen die Benutzereingaben ungeprüft in die SQL--Abfrage (z.B. durch einfache Variablen--Substitution) übernommen werden. Diese wird dadurch dann so verändert, dass sensible Daten ausgespäht oder die Daten verändert bzw. gelöscht werden können\footnote{vgl. \cite{friedl:sqlinjection}}. Die Überprüfung der Eingabewerte ist somit in jedem Falle empfehlenswert und aufgrund des öffentlichen Charakters der Webanwendung hier besonders wichtig.
 
 \subsection{HTML--Designframework: Bootstrap}
 
-Die hier vorgestellte Anwendung realisiert ihr Aussehen zum großen Teil mit dem CSS--Framework „Bootstrap“, welches moderne Designprinzipien wie variables, mehrspaltiges Layout oder gar Responsive Layout, welches sich an die unterschiedlichen Bildschirmgrößen vom Smartphone bis zum wandfüllenden HD--TV anpassen kann, anbietet\footnote{Lizenz: Apache Licence V2.0, Download unter \url{http://getbootstrap.com/}}.
+Die hier vorgestellte Anwendung realisiert ihr Aussehen zum großen Teil mit dem CSS--Framework „Bootstrap“, welches moderne Designprinzipien wie variables, mehrspaltiges Layout oder gar responsives Layout, welches sich an die unterschiedlichen Bildschirmgrößen vom Smartphone bis zum wandfüllenden HD--TV anpassen kann, anbietet\footnote{Lizenz: Apache Licence V2.0, Download unter \url{http://getbootstrap.com/}}.
 
 Die Anwendung selbst muss den entsprechenden Elementen lediglich die gewünschten CSS--Klassen zuweisen. Der Entwickler wird somit nicht mit den Design--Details belastet.
 
-Trotz allem ist eine eigene Anpassung des Designs wie in der Datei \code{…/style.css} zu sehen ist möglich. 
+Trotz allem ist eine eigene Anpassung des Designs wie in der Datei \code{…/style.css} zu sehen ist, möglich. 
 
 \subsection{JavaScript--Frontendramework: jQuery}
 
-Bei der Realiierung der Eingabeseite für neue Fragen und Antwortmöglichkeiten wird die JavaScript Bibliothek „jQuery“ verwendet, um weitere Antwortmöglichkeiten einfügen oder diese auch wieder löschen zu können. jQuery bietet auch noch weitere Funktionen für interaktive Benutzeroberflächen, die allerdings in der hier beschriebenen Anwendung nicht genutzt werden.\footnote{Lizenz: MIT-Licence, Download unter \url{http://jquery.com/}}
+Bei der Realisierung der Eingabeseite für neue Fragen und Antwortmöglichkeiten wird die JavaScript Bibliothek „jQuery“ verwendet, um weitere Antwortmöglichkeiten einfügen oder diese auch wieder löschen zu können. jQuery bietet auch noch weitere Funktionen für interaktive Benutzeroberflächen, die allerdings in der hier beschriebenen Anwendung nicht genutzt werden.\footnote{Lizenz: MIT-Licence, Download unter \url{http://jquery.com/}}
 

@@ -2,7 +2,7 @@
 \label{sec:anwendung}
 \subsection{Seitenstruktur}
 
-Alle Seiten der Anwendung sind nach dem gleichen Muster aufgebaut. Sie werden von der Datei \code{index.php} erzeugt. Hier werden wie in Abbildung \ref{fig:struktur} auf Seite \pageref{fig:struktur} die Seitenelemente aus den verschiedenen Include--Dateien für den Kopfbereich, die Navigationsleiste am rechten Rand und dem Fußbereich zusammengesetzt\footnote{Darstellung vereinfacht}. Der eigentliche Funktionsbereich\footnote{Frage anzeigen, Antworten speichern und auswerten, anmelden, abmelden, Eingabemaske für neue Fragen sowie das Abspeichern der neuen Fragen} werden von den PHP--Dateien im Verzeichniss \code{.../pages/} übernommen.
+Alle Seiten der Anwendung sind nach dem gleichen Muster aufgebaut. Sie werden von der Datei \code{index.php} erzeugt. Hier werden wie in Abbildung \ref{fig:struktur} auf Seite \pageref{fig:struktur} die Seitenelemente aus den verschiedenen Include--Dateien für den Kopfbereich, die Navigationsleiste am rechten Rand und dem Fußbereich zusammengesetzt\footnote{Darstellung vereinfacht}. Der eigentliche Funktionsbereich\footnote{Frage anzeigen, Antworten speichern und auswerten, anmelden, abmelden, Eingabemaske für neue Fragen sowie das Abspeichern der neuen Fragen} wird von den PHP--Dateien im Verzeichniss \code{.../pages/} übernommen.
 
 \begin{figure}[h]
 \begin{spacing}{1.0}	
@@ -35,9 +35,9 @@ Diese Seitenelemente und Programmteile werden in einer Struktur aus \code{DIV}--
 
 \subsection{Layoutanpassungen mit CSS}
 
-Die Gestaltung des Layouts mit „Cascading Stylesheets“ (kurz: CSS) ermöglicht es, das durch das Bootstrap--Framework vorgegebene Aussehen durch hinzufügen eines eigenen Stylesheets anzupassen.
+Die Gestaltung des Layouts mit „Cascading Stylesheets“ (kurz: CSS) ermöglicht es, das durch das Bootstrap--Framework vorgegebene Aussehen durch Hinzufügen eines eigenen Stylesheets anzupassen.
 
-So wurden bei der besprochenen Anwendung die Überschriften in der Seitenleiste individuell Farbig unterstrichen. Die Thematischen Blöcker werden hierzu in \code{DIV}--Blöcken mit den entsprechenden CSS--IDs eingeschlossen. Wie in Abbildung \ref{fig:seitenleiste} auf Seite \pageref{fig:seitenleiste} zu sehen, werden die Links beim berühren mit dem Mauszeiger in der gleichen Farbe dargestellt.
+So wurden bei der besprochenen Anwendung die Überschriften in der Seitenleiste individuell farbig unterstrichen. Die thematischen Blöcke werden hierzu in \code{DIV}--Blöcken mit den entsprechenden CSS--IDs eingeschlossen. Wie in Abbildung \ref{fig:seitenleiste} auf Seite \pageref{fig:seitenleiste} zu sehen, werden die Links beim Berühren mit dem Mauszeiger in der gleichen Farbe dargestellt.
 
 Bei der Darstellung der Auswertung werden die vom Benutzer selbst gegebenen Antworten durch Auszeichnung mit einer CSS-Klasse in fetter Schrift hervorgehoben. 
 
@@ -120,9 +120,7 @@ Durch Klicken des Buttons mit der Aufschrift „Frage \& Antworten speichern“ 
 
 \subsection{Benutzerverwaltung}
 
-Wie in Abschnitt \ref{sec:user} beschrieben stellt die Klasse „user“ alle Funktionen für die Authentifizierung der Seitenadministratoren bereit. Das PHP--Script unter \code{.../pages/anmeldung.php“} nimmt daher lediglich den Benutzernamen und das Passwort über ein HTML--Formular entgegen und übergibt diese der Methode \code{User::auth()}.
-
-Alle Teile der Anwendung erhalten über den in Abbildung \ref{php:getinstance} gezeigten Aufruf eine Referenz auf die Instanz der Benutzerverwaltung. Diese Code--Zeilen sind in der Datei \code{.../includes/header.php} eingefügt, welche von allen Seiten der Anwendung eingebunden wird.
+Wie in Abschnitt \ref{sec:user} beschrieben, stellt die Klasse „user“ alle Funktionen für die Authentifizierung der Seitenadministratoren bereit. Das PHP--Script unter \code{.../pages/anmeldung.php“} nimmt daher lediglich den Benutzernamen und das Passwort über ein HTML--Formular entgegen und übergibt diese der Methode \code{User::auth()}.
 
 \begin{figure}[h]
 \begin{spacing}{1.0}
@@ -137,8 +135,6 @@ $user = User::getInstance();
 \end{spacing}
 \end{figure}
 
-An den Stellen, bei dem die Seitendarstellung für angemeldete Nutzer und nicht angemeldete Besucher unterschiedlich sein soll, wird der Anmeldestatus über die Methode \code{User::getAngemeldet()} abgefragt und die Ausführung des PHP--Scripts entsprechend verzweigt. Als Beispiel wird hier die individualisierte Seitenleiste aus der Datei \code{.../includes/sidebar.php} in Abbildung \ref{php:angemeldet} gezeigt.
-
 \begin{figure}[h]
 \begin{spacing}{1.0}
 \begin{minted}[bgcolor=bg]{php}
@@ -152,4 +148,9 @@ An den Stellen, bei dem die Seitendarstellung für angemeldete Nutzer und nicht 
 \label{php:angemeldet}
 \end{spacing}
 \end{figure}
+
+Alle Teile der Anwendung erhalten über den in Abbildung \ref{php:getinstance} gezeigten Aufruf eine Referenz auf die Instanz der Benutzerverwaltung. Diese Code--Zeilen sind in der Datei \code{.../includes/header.php} eingefügt, welche von allen Seiten der Anwendung eingebunden wird.
+
+An den Stellen, bei dem die Seitendarstellung für angemeldete Nutzer und nicht angemeldete Besucher unterschiedlich sein soll, wird der Anmeldestatus über die Methode \code{User::getAngemeldet()} abgefragt und die Ausführung des PHP--Scripts entsprechend verzweigt. Als Beispiel wird hier die individualisierte Seitenleiste aus der Datei \code{.../includes/sidebar.php} in Abbildung \ref{php:angemeldet} gezeigt.
+
  
