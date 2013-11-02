@@ -1,13 +1,11 @@
-\section{Bewertung}
+\section{Bewertung \& Ausblick}
 
-\subsection{Zusammenfassung}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Die vorliegende Anwendung implementiert eine Reihe von Funktionen, die nicht nur für die geforderte Funktionalität genutzt werden kann. So sind die Klassen „Datenbank“ und „User“ für andere Datenbankbasierte Anwendungen mit Benutzerverwaltung wiederverwendbar. Die Klasse „SQL“ kann als Vorlage für andere Abfragen genutzt werden.
 
-\subsection{kritische Würdigung}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Vor einem Einsatz in einem Produktivsystem ist allerdings noch eine wirksame Verschlüsselung der Benutzerpasswörter zu implementieren\footnote{Vgl. Abschnitt \ref{sec:tbluser}}.
 
-\subsection{Ausblick}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Für die gegebene Aufgabenstellung war die Nutzung von PHP--Includes zur Sicherstellung eines einheitlichen Designs ausreichend. Für komplexere Aufgaben wäre eine Implementierung nach dem MVC--Musters mit der Nutzung eines Temp\-lating--Frame\-works aufgrund der höheren Übersichtlichkeit und Robustheit ratsam.
 
-\subsection{Erfolgsfaktoren}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Durch die Nutzung von PDO für den Datenbankzugriff ist die Anwendung für verschiedene Einsatzumgebungen gerüstet. Ein Wechsel der genutzten Datenbank ist durch die Anpassung weniger Zeilen der Konfigurationsdatei möglich.
+
+Aufgrund der Modellierung von zwei schwachen Entities wird die Frage--ID und die Antwort--ID mehrfach in den Tabellen gespeichert. Bei den SQL--Joins muss nicht nur ein Element sondern alle Elemente des zusammengesetzten Schlüssels verglichen werden. Ein weiterführende Arbeit könnte untersuchen, welche Auswirkungen eine Modellierung mit starken Entities auf den Speicherverbrauch und auf die Geschwindigkeit der Datenbankanfragen hätte.
