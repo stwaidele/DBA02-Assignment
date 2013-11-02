@@ -1,18 +1,8 @@
-\section{Umsetzung in HTML \& PHP}
-
-\subsection{Seitenstruktur}
-
-Alle Seiten der Anwendung sind nach dem gleichen Muster aufgebaut. Sie werden von der Datei \code{index.php} erzeugt. Hier werden wie in Abbildung \ref{fig:struktur} auf Seite \pageref{fig:struktur} die Seitenelemente aus den verschiedenen Include--Dateien für den Kopfbereich, die Navigationsleiste am rechten Rand und dem Fußbereich zusammengesetzt\footnote{Darstellung vereinfacht}. Der eigentliche Funktionsbereich\footnote{Frage anzeigen, Antworten speichern und auswerten, anmelden, abmelden, Eingabemaske für neue Fragen sowie das Abspeichern der neuen Fragen} werden von den PHP--Dateien im Verzeichniss \code{.../pages/} übernommen.
-
-Diese Seitenelemente und Programmteile werden in einer Struktur aus \code{DIV}--Elementen angeordnet, welche durch die CSS--Klassen des Bootstrap--Frameworks zu einem modernen, responsiven Layout ausgezeichnet werden. Der Anwendungsentwickler braucht sich somit nicht um die optimale Darstellung der HTML--Seiten auf Desktoprechnern, Tabletts oder Smartphones zu kümmern. Jede Bildschirmgröße erhält durch Bootstrap automatisch ein speziell abgestimmtes Layout.
-
-\include{figstruktur}
-
 \subsection{Layoutanpassungen mit CSS}
 
 
 
-
+\subsection{Mögliche Benutzer}
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=\textwidth]{zustaende.jpg}
