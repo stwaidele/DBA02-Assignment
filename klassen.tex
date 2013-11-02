@@ -6,8 +6,8 @@ Der Zugriff auf die in der bislang beschriebenen Datenbank gespeicherten Daten e
 \begin{center}
 \includegraphics[width=\textwidth]{UML.jpg}
 \caption{UML--Klassendiagramm}
-\end{center}
 \label{fig:uml}
+\end{center}
 \end{figure}
 
 Die Implementation der Klassen ist im beigefügten Quelltext in den Dateien \code{.../class/Datenbank.php}, \code{.../class/SQL.php} und \code{.../class/User.php} zu betrachten. Auch die Klasse „User“ nutzt für den Datenbankzugriff die Klasse „SQL“. Dies geschieht allerdings nur innerhalb der Methode \code{auth()} über eine lokale Variable und ist daher im UML--Diagramm nicht zu erkennen.
