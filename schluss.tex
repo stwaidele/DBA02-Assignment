@@ -2,6 +2,8 @@
 
 Die vorliegende Anwendung implementiert eine Reihe von Funktionen, die nicht nur für die geforderte Funktionalität genutzt werden kann. So sind die Klassen „Datenbank“ und „User“ für andere Datenbankbasierte Anwendungen mit Benutzerverwaltung wiederverwendbar. Die Klasse „SQL“ kann als Vorlage für andere Abfragen genutzt werden.
 
+Mit dem Apache--Module \code{mod\_rewrite} und der im Quellcode enthaltene Konfigurationsdatei \code{.../.htaccess} sind besser lesbare URLs für die Seiten realisierbar. So könnte Frage Nummer 3 unter der Adresse \url{http://dba02.10100.de/frage/3} angezeigt werden. Da die Anwendung zur Beurteilung auch auf Systemen ohne \code{mod\_rewrite} lauffähig sein soll, wurde hierauf bewusst verzichtet. Alle Links der Anwendung nutzen das interne Format mit sichtbarer Parameterübergabe (z.B. \url{http://dba02.10100.de/index.php?show=frage&fid=3}). 
+
 Vor einem Einsatz in einem Produktivsystem ist allerdings noch eine wirksame Verschlüsselung der Benutzerpasswörter zu implementieren\footnote{Vgl. Abschnitt \ref{sec:tbluser}}.
 
 Für die gegebene Aufgabenstellung war die Nutzung von PHP--Includes zur Sicherstellung eines einheitlichen Designs ausreichend. Für komplexere Aufgaben wäre eine Implementierung nach dem MVC--Musters mit der Nutzung eines Temp\-lating--Frame\-works aufgrund der höheren Übersichtlichkeit und Robustheit ratsam.
