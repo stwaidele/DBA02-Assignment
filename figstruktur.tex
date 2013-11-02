@@ -1,0 +1,24 @@
+\begin{figure}[h]
+\begin{minted}[bgcolor=bg]{php}
+<?php 
+  include($_SERVER['DOCUMENT_ROOT'].'/includes/header.php'); 
+?>
+<div class="row">
+ <div class="col-md-8">
+  <?php 
+    include($_SERVER['DOCUMENT_ROOT'].'/pages/'. $show . '.php'); 
+  ?> 
+ </div>
+ <div class="col-md-4">
+  <?php 
+    include($_SERVER['DOCUMENT_ROOT'].'/includes/sidebar.php'); 
+  ?>
+ </div>	  
+</div>
+<?php 
+  include($_SERVER['DOCUMENT_ROOT'].'/includes/footer.php'); 
+?>
+\end{minted}
+\caption{HTML: Seitenstruktur und PHP--Includes}
+\label{fig:struktur}
+\end{figure}
