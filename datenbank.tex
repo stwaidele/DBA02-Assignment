@@ -1,5 +1,5 @@
 \section{Datenbank--Schema}
-
+\label{sec:dbschema}
 \subsection{Konzeptuelles Datenbankschema: Entity--Relationship Diagramm}
 
 Hier werden die Gegenstände der realen Welt modelliert wie in Abbildung \ref{fig:erd} gezeigt modelliert. Hierbei ist zu beachten, dass die Entität „Frage“ das zentrale Element des Datenmodells darstellt. Die weiteren Entitäten „Antwortmöglichkeit“ bzw. „gegebene Antwort” sind existenzabhängige Entities. Ohne Antwortmöglichkeit kann ohne zugehörige Frage nicht existieren, eine gegebene Antwort macht nur Sinn, wenn es eine entsprechende Antwortmöglichkeit und Frage gibt.
@@ -34,6 +34,7 @@ Aufgrund des in Abbildung \ref{fig:erd} auf Seite \pageref{fig:erd} dargestelten
 
 \subsubsection{Tabelle: user --- Benutzerverwaltung}
 \begin{figure}[H]
+\begin{spacing}{1.0}
 \begin{minted}[bgcolor=bg]{sql}
 CREATE TABLE user (
   email VARCHAR(255) NOT NULL,
@@ -43,6 +44,7 @@ CREATE TABLE user (
 \end{minted}
 \caption{SQL: CREATE TABLE user}
 \label{sql:tbluser}
+\end{spacing}
 \end{figure}
 
 Als Benutzername und auch als Primärschlüssel wird die E--Mail Adresse des Administrators genutzt. Da diese den Nutzer eindeutig identifiziert wird auf einen seperaten Nutzernamen und auch auf eine generierte ID als Primärschlüssel verzichtet.
@@ -52,6 +54,7 @@ Die hier reservierten 32 Byte sind für den in der MySQL--Dokumentation\footnote
 
 \subsubsection{Tabelle: frage --- Fragestellungen}
 \begin{figure}[H]
+\begin{spacing}{1.0}
 \begin{minted}[bgcolor=bg]{sql}
 CREATE TABLE frage (
   fid INT NOT NULL AUTO_INCREMENT,
@@ -60,12 +63,14 @@ CREATE TABLE frage (
 \end{minted}
 \caption{SQL: CREATE TABLE frage}
 \label{sql:tblfrage}
+\end{spacing}
 \end{figure}
 
 In der Tabelle „Frage“ wird lediglich der Text der Frage sowie die eindeutige Frage--ID gespeichert. Letztere dient als Primärschlüssel.
 
 \subsubsection{Tabelle: antwort --- Antwortmöglichkeiten}
 \begin{figure}[H]
+\begin{spacing}{1.0}
 \begin{minted}[bgcolor=bg]{sql}
 CREATE TABLE antwort (
   fid INT NOT NULL, 
@@ -80,6 +85,7 @@ CREATE TABLE antwort (
 \end{minted}
 \caption{SQL: CREATE TABLE antwort}
 \label{sql:tblantwort}
+\end{spacing}
 \end{figure}
 
 Aufgrund der Modellierung als schwache Entity setzt sich der Primärschlüssel der Tabelle „Antwort“ aus der Frage--ID sowie der Antwort--ID zusammen. Zusätzlich wird der Antworttext sowie eine frei zu vergebende Nummer gespeichert, welche für die Sortierreihenfolge bei der Anzeige genutzt werden kann.
@@ -88,6 +94,7 @@ Die Integritätsbedingung wird so definiert, dass beim Löschen einer Frage auch
 
 \subsubsection{Tabelle: geantwortet --- Gegebene Antworten}
 \begin{figure}[H]
+\begin{spacing}{1.0}
 \begin{minted}[bgcolor=bg]{sql}
 CREATE TABLE geantwortet (
   fid INT NOT NULL,
@@ -102,6 +109,7 @@ CREATE TABLE geantwortet (
 \end{minted}
 \caption{SQL: CREATE TABLE geantwortet}
 \label{sql:tblgeantwortet}
+\end{spacing}
 \end{figure}
 
 Für die Speicherung der gegebenen Antworten in der Tabelle „geantwortet“ genügt der aus Frage--ID, Antwort--ID und Geantwortet--ID zusammengesetzte Primärschlüssel. Zusätzlich wird noch der jeweilige Zeitstempel für spätere Auswertungen erfasst.

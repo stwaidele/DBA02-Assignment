@@ -1,5 +1,5 @@
 \section{Klassenhierarchie}
-
+\label{sec:klassen}
 Der Zugriff auf die in der bislang beschriebenen Datenbank gespeicherten Daten erfolgt über die folgende  Klassenhierarchie:
 
 \begin{figure}[H]
@@ -27,7 +27,7 @@ Zum Speichern von neuen Fragen und Antwortmöglichkeiten bzw. von gegebenen Antw
 Durch die Reduzierung der Aufrufe auf die passenden Get-- und Set--Methoden wird in der SQL-Klasse das Fassden-Entwurfsmuster realisiert. Der Aufrufende Code benötigt keinerlei Informationen über die Datenstruktur, die Datenbank oder Transaktionen. Änderungen an diesen technischen Details wirken sich lediglich auf die SQL--Klasse aus. So lange diese laut Spezifikation Werte entgegennimmt und zurückliefert, muss kein weiterer Programmcode geändert werden.
 
 \subsubsection{Speichern von neuen Fragen und Antwortmöglichkeiten}
-
+\label{sec:speichern}
 In der Methode \code{setNeueFrage()} werden neue Fragen und die zugehörigen Antwortmöglichkeiten in der Datenbank abgespeichert. Hierzu werden die entsprechenden Texte in den Parametern \code{\$fragetext} und \code{\$antworten} übergeben werden. Bei letzterem handelt es sich um ein Array, da es pro Frage mehrere Antwortmöglichkeiten gibt.
 
 Das Datenbankschema verlangt es, dass zu jeder Antwortmöglichkeit die ID der zugehörigen Frage gespeichert wird. Somit wird zunächst die Frage in die Datenbank eingefügt. Die automatisch generierte ID kann dann mit der PDO--Methode \code{lastInsertId()} ausgelesen werden. Anschließend werden die Antwortmöglichkeiten in einer \code{foreach}--Schleife in die Datenbank eingefügt.
@@ -37,7 +37,7 @@ Dieser Vorgang besteht somit aus vielen einzelnen Schritten. Fehlermöglichkeite
 Daher wird der gesamte Vorgang in einer SQL--Transaktion eingebettet und im Fehlerfall werden schon getätigte Änderungen mit einem Rollback zurückgenommen. Somit ist Konsistenz der Datenbank zu jedem Zeitpunkt sichergestellt.
 
 \subsection{Klasse: User --- Benutzerverwaltung}
-
+\label{sec:user}
 Die Benutzerverwaltung nutzt das Singleton Entwurfsmuster. Dieses wird durch die folgenden Maßnahmen implementiert: Die private Deklaration des Konstruktors sowie der \code{clone()} Methode wird die direkte Instanziierung der Klasse unterbunden. Eine Referenz auf die Instanz wird in der ebenfalls privaten statischen Variable \code{ \$instance } gespeichert und über die öffentliche Funktion \code{getInstance()} bekannt gemacht.
 
 Die Funktion \code{auth()} erwartet als Parameter den Benutzernamen und das Passwort sowie optional eine URL zu der im Falle der erfolgreichen Authentifizierung umgeleitet werden soll. Der Datenbankzugriff erfolgt über eine lokale Instanz der Klasse SQL. Stimmen die Anmeldedetails mit den in der Datenbank gespeicherten überein werden in der von PHP zur Verfügung gestellten \code{\$\_SESSION}--Variable das Feld „angemeldet“ mit \code{TRUE} und das Feld „benutzer“ mit dem Benutzernamen gefüllt. Stimmen die Anmeldedaten nicht mit den gespeicherten Werten überein, so erhält das Feld „angemeldet“ den Wert \code{FALSE}.
